@@ -1,6 +1,9 @@
 import os
+import time
+from datetime import datetime
 import subprocess as sp
 from dotenv import load_dotenv
+import schedule
 
 load_dotenv()
 
@@ -30,4 +33,19 @@ command = [
     os.path.join(RTMP_URL, STREAM_KEY),
 ]
 
-sp.run(command)
+def stream_siren():
+    """Streams siren video to Twitch
+    """
+    # Check if first Wednesday of the month
+    if datetime.today().weekday() == 2 and datetime.today().day <= 7: 
+        print('Start stream...')
+        sp.run(command)
+
+
+if __name__ == '__main__':
+    schedule.every().day.at('11:55').do(stream_siren)
+    print('Start worker...')
+    
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
