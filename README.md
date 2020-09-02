@@ -2,7 +2,7 @@
 
 Streams a video of a tornado siren to Twitch on the first Wednesday of every month at 11:55AM.
 
-# Setup
+## Setup
 
 Pre-requisites:
   - FFMPEG
