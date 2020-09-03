@@ -40,11 +40,15 @@ def stream_siren():
     today = datetime.today()
     if today.weekday() == 2 and today.day <= 7:
         # Tweet reminder
-        log.info('Update status')
-        date_str = today.strftime('%b %d, %Y')
-        api.update_status(f'Virtual siren for {date_str} has started at {STREAM_URL}!')
+        log.info('Tweeting reminder...')
+        try:
+            date_str = today.strftime('%b %d, %Y')
+            api.update_status(f'Virtual siren for {date_str} has started at {STREAM_URL}!')
+        except tweepy.TweepError:
+            log.warning('Could not send tweet.')
+
         # FFMPEG stream to RTMP server
-        log.info('Start stream')
+        log.info('Starting stream...')
         sp.run([
             'ffmpeg',
             '-re',
@@ -69,7 +73,7 @@ def stream_siren():
 
 if __name__ == '__main__':
     schedule.every().day.at('11:55').do(stream_siren)
-    log.info('Start worker...')
+    log.info('Worker started.')
     
     while True:
         schedule.run_pending()
