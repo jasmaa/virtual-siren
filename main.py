@@ -4,11 +4,14 @@ import time
 from datetime import datetime
 import subprocess as sp
 import logging
-from dotenv import load_dotenv
-import schedule
 import tweepy
+import pytz
 
-load_dotenv()
+# Set timezone
+try:
+    tz = pytz.timezone(os.getenv('TZ'))
+except pytz.exceptions.UnknownTimeZoneError:
+    tz = pytz.timezone('UTC')
 
 RTMP_URL = os.getenv('RTMP_URL')
 STREAM_KEY = os.getenv('STREAM_KEY')
@@ -33,11 +36,11 @@ out_hdlr.setLevel(logging.INFO)
 log.addHandler(out_hdlr)
 log.setLevel(logging.INFO)
 
-def stream_siren():
+def stream_siren(request):
     """Streams siren video to Twitch
     """
     # Check if first Wednesday of the month
-    today = datetime.today()
+    today = datetime.today().astimezone(tz)
     if today.weekday() == 2 and today.day <= 7:
         # Tweet reminder
         log.info('Tweeting reminder...')
@@ -70,11 +73,3 @@ def stream_siren():
             '-f', 'flv',
             os.path.join(RTMP_URL, STREAM_KEY),
         ])
-
-if __name__ == '__main__':
-    schedule.every().day.at('11:55').do(stream_siren)
-    log.info('Worker started.')
-    
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
