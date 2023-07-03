@@ -1,2 +1,2 @@
-tweepy
-pytz
+pytz==2021.3
+requests==2.31.0
