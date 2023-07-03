@@ -8,6 +8,17 @@ import requests
 import pytz
 
 
+def get_today():
+    # Set timezone
+    try:
+        tz = pytz.timezone(os.getenv('TZ'))
+    except pytz.exceptions.UnknownTimeZoneError:
+        tz = pytz.timezone('UTC')
+
+    today = datetime.today().astimezone(tz)
+    return today
+
+
 def stream_siren(request):
     """Streams siren video to Twitch
     """
@@ -27,14 +38,8 @@ def stream_siren(request):
     log.addHandler(out_hdlr)
     log.setLevel(logging.INFO)
 
-    # Set timezone
-    try:
-        tz = pytz.timezone(os.getenv('TZ'))
-    except pytz.exceptions.UnknownTimeZoneError:
-        tz = pytz.timezone('UTC')
-
     # Check if first Wednesday of the month
-    today = datetime.today().astimezone(tz)
+    today = get_today()
     if today.weekday() == 2 and today.day <= 7:
         # Toot reminder
         log.info('Tooting reminder...')

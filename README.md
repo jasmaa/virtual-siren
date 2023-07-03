@@ -18,8 +18,8 @@ first Wednesday of every month at 11:55AM.
   - Setup Mastodon reminder (optional)
     - Create a bot account on Mastodon instance of your choice. The url of the
       instance will be `MSTDN_URL`.
-    - Go settings and create an application. This will generate an access token
-      which will be `MSTDN_ACCESS_TOKEN`.
+    - Go to settings and create an application. This will generate an access
+      token which will be `MSTDN_ACCESS_TOKEN`.
 
 ### Deploying to GCloud
 
@@ -49,4 +49,10 @@ gcloud scheduler jobs create http stream-siren-job \
   --time-zone "America/New_York" \
   --uri <TRIGGER URI> \
   --oidc-service-account-email <SERVICE ACCOUNT EMAIL>
+```
+
+## Testing
+
+```
+python -m unittest discover --verbose tests
 ```
