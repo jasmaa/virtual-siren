@@ -6,6 +6,7 @@ import subprocess as sp
 import logging
 import requests
 import pytz
+from dotenv import load_dotenv
 
 
 def get_today():
@@ -80,3 +81,8 @@ def stream_siren(request):
             '-f', 'flv',
             os.path.join(RTMP_URL, STREAM_KEY),
         ])
+
+
+if __name__ == "__main__":
+    load_dotenv()
+    stream_siren({})

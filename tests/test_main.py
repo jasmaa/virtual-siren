@@ -1,7 +1,7 @@
 import os
 import unittest
 import datetime
-from mock import patch
+from unittest.mock import patch
 import main
 
 TEST_ENV_VARS = {

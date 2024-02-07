@@ -21,6 +21,29 @@ first Wednesday of every month at 11:55AM.
     - Go to settings and create an application. This will generate an access
       token which will be `MSTDN_ACCESS_TOKEN`.
 
+### Deploying to Ubuntu
+
+Ensure `ffmpeg` is installed on your machine:
+
+```
+sudo apt install ffmpeg
+```
+
+Clone the repo to your machine at `/opt`.
+
+Find an `mp4` video of a tornado siren of your choosing and save it to your
+machine (ex. `data/siren.mp4`). The path of the `mp4` will be `INPUT_FILE`.
+
+Schedule a cronjob:
+
+```
+sudo crontab -e
+```
+
+```
+55 11 * * * cd /opt/virtual-siren && python main.py
+```
+
 ### Deploying to GCloud
 
 Create a service user with `Cloud Function Invoker` privileges.
