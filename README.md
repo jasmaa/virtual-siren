@@ -8,7 +8,7 @@ first Wednesday of every month at 11:55AM.
 ### Pre-requisites:
   - Twitch account
   - Mastodon account (optional)
-  - GCP account
+  - GCP account (only if deploying to GCP)
 
 ### Setup Twitch and Mastodon
   - Setup Twitch streaming
@@ -21,7 +21,7 @@ first Wednesday of every month at 11:55AM.
     - Go to settings and create an application. This will generate an access
       token which will be `MSTDN_ACCESS_TOKEN`.
 
-### Deploying to Ubuntu
+### Option 1: Deploy to Ubuntu
 
 Ensure `ffmpeg` is installed on your machine:
 
@@ -31,8 +31,16 @@ sudo apt install ffmpeg
 
 Clone the repo to your machine at `/opt`.
 
+Install dependencies:
+
+```
+pip3 install -r requirements.txt
+```
+
 Find an `mp4` video of a tornado siren of your choosing and save it to your
 machine (ex. `data/siren.mp4`). The path of the `mp4` will be `INPUT_FILE`.
+
+Create `.env` from `sample.env` and fill with your values.
 
 Schedule a cronjob:
 
@@ -41,10 +49,10 @@ sudo crontab -e
 ```
 
 ```
-55 11 * * * cd /opt/virtual-siren && python main.py
+55 11 * * * cd /opt/virtual-siren && python3 main.py
 ```
 
-### Deploying to GCloud
+### Option 2: Deploy to GCloud
 
 Create a service user with `Cloud Function Invoker` privileges.
 
