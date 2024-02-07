@@ -1,7 +1,7 @@
 # Virtual Tornado Siren
 
-Google Cloud function to stream a video of a tornado siren to Twitch on the
-first Wednesday of every month at 11:55AM.
+Streams a video of a tornado siren on the first Wednesday of every month at
+11:55AM.
 
 ## Setup
 
