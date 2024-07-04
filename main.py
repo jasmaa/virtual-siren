@@ -39,9 +39,15 @@ def stream_siren(request):
     log.addHandler(out_hdlr)
     log.setLevel(logging.INFO)
 
+    log.info("Starting...")
+
     # Check if first Wednesday of the month
     today = get_today()
+
+    log.info(f'Running for date="{today}"...')
     if today.weekday() == 2 and today.day <= 7:
+        log.info("Is first Wednesday of the month.")
+
         # Toot reminder
         log.info('Tooting reminder...')
         try:
@@ -81,6 +87,10 @@ def stream_siren(request):
             '-f', 'flv',
             os.path.join(RTMP_URL, STREAM_KEY),
         ])
+    else:
+        log.info("Not a first Wednesday of the month. Exiting...")
+
+    log.info("Done!")
 
 
 if __name__ == "__main__":
