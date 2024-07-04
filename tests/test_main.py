@@ -2,6 +2,7 @@ import os
 import unittest
 import datetime
 from unittest.mock import patch
+import requests
 import main
 
 TEST_ENV_VARS = {
@@ -43,6 +44,18 @@ class TestMain(unittest.TestCase):
 
         post.assert_not_called()
         run.assert_not_called()
+
+    @patch('subprocess.run')
+    @patch('requests.post')
+    @patch('main.get_today')
+    def test_should_stream_siren_when_toot_fails(self, get_today, post, run):
+        get_today.return_value = datetime.datetime(2023, 7, 5)
+        run.return_value = None
+        post.side_effect = requests.exceptions.HTTPError()
+
+        main.stream_siren({})
+
+        run.assert_called_once()
 
 
 if __name__ == "__main__":
